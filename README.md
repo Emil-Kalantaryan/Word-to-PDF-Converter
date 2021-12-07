@@ -1,2 +1,2 @@
 # Word-to-PDF-Converter
-Word to PDF Converter with Powershell Script
+Word to PDF Converter with a Powershell Script
