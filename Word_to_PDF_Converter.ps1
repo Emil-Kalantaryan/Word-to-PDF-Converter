@@ -4,6 +4,9 @@ $Name = "Word to PDF Converter"
 $Version = "1.0.6"
 $Date = "08/12/2021"
 
+# Powershell Window Title
+$Host.UI.RawUI.WindowTitle = "$Name - $Version"
+
 # Script Information Output
 Write-Host "--------------------------------------" -ForegroundColor "White"
 Write-Host "  Author:   $Author" -ForegroundColor "White"
