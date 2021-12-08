@@ -17,11 +17,15 @@ Write-Host "--------------------------------------`n" -ForegroundColor "White"
 
 # Checking if the required folders exist and creating them in case they do not exist
 if (!(Test-Path -Path ($PSScriptRoot + "\Input"))) {
-    Write-Host "Creating the folder: '$PSScriptRoot\Input'" -ForegroundColor "Cyan"
+    $LogLine = "[$(Get-Date)] Creating the folder: '$PSScriptRoot\Input'"
+    Add-content ".\Word_to_PDF_Converter.log" -Value $LogLine
+    Write-Host $LogLine -ForegroundColor "Cyan"
     New-Item -Path $PSScriptRoot -Name "Input" -ItemType "Directory" > $Null
 }
 if (!(Test-Path -Path ($PSScriptRoot + "\Output"))) {
-    Write-Host "Creating the folder: '$PSScriptRoot\Output'" -ForegroundColor "Cyan"
+    $LogLine = "[$(Get-Date)] Creating the folder: '$PSScriptRoot\Output'"
+    Add-content ".\Word_to_PDF_Converter.log" -Value $LogLine
+    Write-Host $LogLine -ForegroundColor "Cyan"
     New-Item -Path $PSScriptRoot -Name "Output" -ItemType "Directory" > $Null
 }
 
