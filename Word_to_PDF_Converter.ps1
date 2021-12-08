@@ -71,8 +71,8 @@ $Convert_Word_to_PDF = {
         # File conversion Loop
         Get-ChildItem $InputPath -Filter $FileTypes | ForEach-Object {
             # Current File information
-	        $FileName = "$_"
-	        $FilePath = $_.FullName
+            $FileName = "$_"
+            $FilePath = $_.FullName
 
             # Converted file Output
             $OutputPath = [System.Environment]::CurrentDirectory + "\Output\" + $FileName.Substring(0,$FileName.LastIndexOf("."))
