@@ -1,0 +1,3 @@
+@ECHO OFF
+TASKKILL /F /IM winword.exe
+PAUSE
