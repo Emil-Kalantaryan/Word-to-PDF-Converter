@@ -1,8 +1,8 @@
 # Script Information
 $Author = "Emil Kalantaryan"
 $Name = "Word to PDF Converter"
-$Version = "1.2.0"
-$Date = "12/12/2021"
+$Version = "1.2.2"
+$Date = "16/12/2021"
 
 # Powershell Window Title
 $Host.UI.RawUI.WindowTitle = "$Name $Version"
@@ -48,7 +48,7 @@ if (!(Test-Path -Path ".\Word_to_PDF_Converter.json")) {
 }
 
 # Powershell Window Title - Update
-$Host.UI.RawUI.WindowTitle = "$Name $Version  -  Current session conversions: " + $JSON.CurrentSessionConversions + "  -  Total conversions: " + $JSON.TotalConversions
+$Host.UI.RawUI.WindowTitle = "$Name $Version  -  Conversions remaining: 0  -  Current session conversions: " + $JSON.CurrentSessionConversions + "  -  Total conversions: " + $JSON.TotalConversions
 
 # File System Watcher - Declaration
 $FileSystemWatcher = New-Object System.IO.FileSystemWatcher
@@ -128,10 +128,14 @@ $Convert_Word_to_PDF = {
             $ConversionsCounter++
             $JSON.CurrentSessionConversions++
             $JSON.TotalConversions++
+
+            # Files Counter - Update the value removing 1 to the previous value
+            $FilesCount--
             
             # Powershell Window Title - Update
-            $Host.UI.RawUI.WindowTitle = "$Name $Version  -  Current session conversions: " + $JSON.CurrentSessionConversions + "  -  Total conversions: " + $JSON.TotalConversions
+            $Host.UI.RawUI.WindowTitle = "$Name $Version  -  Conversions remaining: " + $FilesCount + "  -  Current session conversions: " + $JSON.CurrentSessionConversions + "  -  Total conversions: " + $JSON.TotalConversions
         }
+        
         # Saving in the file 'Word_to_PDF_Converter.json' the new values of 'CurrentSessionConversions' and 'TotalConversions'
         $JSON | ConvertTo-Json | Out-File ".\Word_to_PDF_Converter.json"
 
