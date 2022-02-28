@@ -1,8 +1,8 @@
 # Script Information
 $Author = "Emil Kalantaryan"
 $Name = "Word to PDF Converter"
-$Version = "1.2.2"
-$Date = "16/12/2021"
+$Version = "1.2.4"
+$Date = "28/02/2022"
 
 # Powershell Window Title
 $Host.UI.RawUI.WindowTitle = "$Name $Version"
@@ -105,9 +105,14 @@ $Convert_Word_to_PDF = {
             Write-Host $LogLine -ForegroundColor "Yellow"
 
             # File conversion instructions
+            $OutputPath = [System.Environment]::CurrentDirectory + "\Output\" + "$_".Substring(0,"$_".LastIndexOf("."))
             $Document = $Word.Documents.Open($_.FullName)
-            $Document.SaveAs([ref] $([System.Environment]::CurrentDirectory + "\Output\" + "$_".Substring(0,"$_".LastIndexOf("."))), [ref] 17) # 17 = wdFormatPDF - PDF format. (https://docs.microsoft.com/en-us/office/vba/api/word.wdsaveformat)
+            $Document.SaveAs([ref] $OutputPath, [ref] 17) # 17 = wdFormatPDF - PDF format. (https://docs.microsoft.com/en-us/office/vba/api/word.wdsaveformat)
             $Document.Close()
+            $PointsCounter = "$_".Length - "$_".Replace(".","").Length
+            if ($PointsCounter -gt 1) {
+                $OutputPath | Rename-Item -NewName {"$_" + ".pdf"}
+            }
 
             $LogLine = "[$(Get-Date -Format "dd/MM/yyy HH:mm:ss")] The PDF of the file '$_' has been generated successfully."
             Add-content ".\Word_to_PDF_Converter.log" -Value $LogLine
@@ -184,6 +189,8 @@ $Convert_Word_to_PDF = {
         Clear-Variable $FilesCount
         Clear-Variable $JSON
         Clear-Variable $LogLine
+        Clear-Variable $OutputPath
+        Clear-Variable $PointsCounter
         Clear-Variable $Word
     }
 }
